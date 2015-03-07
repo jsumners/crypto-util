@@ -6,8 +6,44 @@
 
   <groupId>com.jrfom</groupId>
   <artifactId>crypto-util</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
   <packaging>jar</packaging>
+
+  <name>Crypto Util</name>
+  <url>https://github.com/jsumners/crypto-util</url>
+  <description>
+    A utiltity library to make using Java's crypto functions easier.
+  </description>
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>http://jsumners.mit-license.org/</url>
+    </license>
+  </licenses>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/jsumners/crypto-util/issues</url>
+  </issueManagement>
+
+  <scm>
+    <connection>scm:git:git@github.com:jsumners/crypto-util.git</connection>
+    <url>https://github.com/jsumners/crypto-util</url>
+    <developerConnection>scm:git:git@github.com:jsumners/crypto-util.git</developerConnection>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>jsumners</id>
+      <name>James Sumners</name>
+      <email>james.sumners@gmail.com</email>
+      <url>http://james.sumners.info/</url>
+      <timezone>-5</timezone>
+      <roles>
+        <role>Lead Developer</role>
+      </roles>
+    </developer>
+  </developers>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,6 +53,12 @@
     <jackson.version>2.4.1</jackson.version>
     <junit.version>4.11</junit.version>
     <slf4j.version>1.7.7</slf4j.version>
+
+    <!-- Maven plugins -->
+    <javadoc.version>2.10.1</javadoc.version>
+    <jxr.version>2.5</jxr.version>
+    <source.version>2.4</source.version>
+    <surefire.version>2.18.1</surefire.version>
   </properties>
 
   <build>
@@ -24,7 +66,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.1</version>
+        <version>${javadoc.version}</version>
         <executions>
           <execution>
             <id>attach-javadoc</id>
@@ -38,7 +80,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.4</version>
+        <version>${source.version}</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -71,6 +113,12 @@
       <artifactId>jackson-databind</artifactId>
       <version>${jackson.version}</version>
       <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-annotations</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -94,6 +142,37 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${javadoc.version}</version>
+        <configuration>
+          <quiet>true</quiet>
+          <links>
+            <link>http://docs.oracle.com/javase/8/docs/api/</link>
+          </links>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>${jxr.version}</version>
+        <configuration>
+          <linkJavadoc>true</linkJavadoc>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>${surefire.version}</version>
+      </plugin>
+    </plugins>
+  </reporting>
 
 
 </project>
