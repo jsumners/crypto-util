@@ -13,6 +13,13 @@ import javax.crypto.spec.IvParameterSpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A base implementation of {@link com.jrfom.crypto.CryptoTool}. This
+ * implemenation does not implement a specific encryption algorithm. As such,
+ * it can be extended to create implementations that are specific to individual
+ * algorithms. Alternatively, it can be used directly to use an algorithm
+ * for which there is not a specific implementation.
+ */
 public class AbstractCryptoTool implements CryptoTool {
   private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
@@ -21,12 +28,24 @@ public class AbstractCryptoTool implements CryptoTool {
   protected Integer ivSize;
   protected Key key;
 
+  /**
+   * Create a new instance for the specified algorithm. Before the instance
+   * can be used you <strong>must</strong> add a key using
+   * {@link com.jrfom.crypto.AbstractCryptoTool#setKey}.
+   *
+   * @param algorithm The algorithm the instance use for encryption/decryption
+   * @param algorithmMode The processing mode fo the specified algorithm
+   * @param ivSize The expected initialization vector length for the algorithm
+   */
   public AbstractCryptoTool(String algorithm, String algorithmMode, Integer ivSize) {
     this.algorithm = algorithm;
     this.algorithmMode = algorithmMode;
     this.ivSize = ivSize;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Optional<byte[]> decrypt(EncryptedData data) {
     Optional<byte[]> result = Optional.empty();
@@ -56,6 +75,9 @@ public class AbstractCryptoTool implements CryptoTool {
     return result;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Optional<EncryptedData> encrypt(byte[] data) {
     Optional<EncryptedData> result = Optional.empty();
@@ -111,6 +133,12 @@ public class AbstractCryptoTool implements CryptoTool {
     return this.key;
   }
 
+  /**
+   * Define the {@link java.security.Key} that will be used for encryption and
+   * decryption.
+   *
+   * @param key
+   */
   public void setKey(Key key) {
     this.key = key;
   }

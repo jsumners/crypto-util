@@ -18,6 +18,11 @@ import com.jrfom.crypto.serializers.EncryptedDataSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * An {@linkplain com.jrfom.crypto.EncryptedData} instance represents a block
+ * of encrypted data. The instance includes the encrypted data and the
+ * Initialization Vector that was used to perform the encryption.
+ */
 @JsonDeserialize(using = EncryptedDataDeserializer.class)
 @JsonSerialize(using = EncryptedDataSerializer.class)
 public class EncryptedData {
@@ -35,6 +40,18 @@ public class EncryptedData {
     this.data = data;
   }
 
+  /**
+   * Create a new instance of {@linkplain com.jrfom.crypto.EncryptedData} given
+   * a {@link java.util.Base64} encoded string that represents a JSON
+   * serialization of an {@linkplain com.jrfom.crypto.EncryptedData} instance.
+   * Such an instance can be created by encoding the result of
+   * {@link com.jrfom.crypto.EncryptedData#toString}.
+   *
+   * @param b64string The string to process
+   * @return An empty {@link java.util.Optional} if there was an error.
+   *         Otherwise an Optional wrapped
+   *         {@linkplain com.jrfom.crypto.EncryptedData} instance
+   */
   public static Optional<EncryptedData> fromBase64(String b64string) {
     Optional<EncryptedData> result = Optional.empty();
     byte[] data;
@@ -50,6 +67,14 @@ public class EncryptedData {
     return result;
   }
 
+  /**
+   * The same as {@link com.jrfom.crypto.EncryptedData#fromBase64} except the
+   * input string is the same string as would be returned from
+   * {@link com.jrfom.crypto.EncryptedData#toString}.
+   *
+   * @param json
+   * @return
+   */
   public static Optional<EncryptedData> fromJSON(String json) {
     Optional<EncryptedData> result = Optional.empty();
 
@@ -88,6 +113,13 @@ public class EncryptedData {
     this.data = data;
   }
 
+  /**
+   * Serializes the {@linkplain com.jrfom.crypto.EncryptedData} instance
+   * to JSON and returns the result.
+   *
+   * @return A JSON string on successful serialization, otherwise "not
+   *         serialized".
+   */
   @Override
   @JsonIgnore
   public String toString() {
