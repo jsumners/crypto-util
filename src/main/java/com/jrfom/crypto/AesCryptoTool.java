@@ -15,7 +15,7 @@ public class AesCryptoTool extends AbstractCryptoTool {
    *            algorithm. The key size should be 16.
    */
   public AesCryptoTool(Key key) {
-    this("AES", "AES/CBC/PKCS5Padding", 16);
+    this(CipherConstants.ALGO_AES, CipherConstants.AesCbcPad5(), 16);
     this.key = key;
   }
 

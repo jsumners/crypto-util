@@ -14,11 +14,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A base implementation of {@link com.jrfom.crypto.CryptoTool}. This
+ * <p>A base implementation of {@link com.jrfom.crypto.CryptoTool}. This
  * implemenation does not implement a specific encryption algorithm. As such,
  * it can be extended to create implementations that are specific to individual
  * algorithms. Alternatively, it can be used directly to use an algorithm
- * for which there is not a specific implementation.
+ * for which there is not a specific implementation.</p>
+ *
+ * <p>See {@link com.jrfom.crypto.CipherConstants} for easy access to
+ * algorithm, algorithm mode, and padding constants.</p>
  */
 public class AbstractCryptoTool implements CryptoTool {
   private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
