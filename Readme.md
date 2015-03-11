@@ -14,7 +14,9 @@ Let's assume you need to encrypt the string "foobar" according to
 will get you sorted:
 
 ```java
-Key key = KeyToolFactory.getInstance().aes128key();
+// You should save this key in a secure location.
+// You will need it for decryption.
+Key key = KeyToolFactory.getInstance().aes128key().get();
 AesCryptoTool tool = new AesCryptoTool(key);
 Optional<EncryptedData> encryptedOptional =
   tool.encrypt("foobar".getBytes());
@@ -44,7 +46,7 @@ dependency:
   <dependency>
     <groupId>com.github.jsumners</groupId>
     <artifactId>crypto-util</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.1</version>
   </dependency>
 </dependencies>
 ```
