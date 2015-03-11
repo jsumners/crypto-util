@@ -22,7 +22,7 @@ public class KeyToolFactoryTest {
 
   @Test
   public void testGetInstanceWithRandom() throws Exception {
-    SecureRandom random = SecureRandom.getInstance("NativePRNG");
+    SecureRandom random = SecureRandom.getInstance(KeyTool.PRNG_NATIVE);
     assertNotNull(random);
 
     KeyTool keyTool = KeyToolFactory.getInstanceWithRandom(random);
