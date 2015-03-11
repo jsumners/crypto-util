@@ -14,7 +14,7 @@ Let's assume you need to encrypt the string "foobar" according to
 will get you sorted:
 
 ```java
-Key key = new SecretKeySpec("1234567890123456".getBytes(), "AES");
+Key key = KeyToolFactory.getInstance().aes128key();
 AesCryptoTool tool = new AesCryptoTool(key);
 Optional<EncryptedData> encryptedOptional =
   tool.encrypt("foobar".getBytes());
