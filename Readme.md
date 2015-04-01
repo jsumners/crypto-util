@@ -46,7 +46,7 @@ dependency:
   <dependency>
     <groupId>com.github.jsumners</groupId>
     <artifactId>crypto-util</artifactId>
-    <version>0.2.1</version>
+    <version>0.3.0</version>
   </dependency>
 </dependencies>
 ```
