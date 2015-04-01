@@ -64,4 +64,28 @@ public class AbstractCryptoToolTest {
       assertEquals("foobar", new String(data))
     );
   }
+
+  @Test
+  public void testEncryptWithIv() throws Exception {
+    AbstractCryptoTool tool =
+      new AbstractCryptoTool("AES", "AES/CBC/PKCS5Padding", 16);
+    tool.setKey(this.key);
+    byte[] iv = Base64.getDecoder().decode("VSadcPgqXYoegXchXrej2Q==");
+
+    Optional<EncryptedData> encryptedDataOptional =
+      tool.encrypt("foobar".getBytes(), iv);
+    assertTrue(encryptedDataOptional.isPresent());
+
+    encryptedDataOptional =
+      EncryptedData.fromJSON(encryptedDataOptional.get().toString());
+    assertTrue(encryptedDataOptional.isPresent());
+
+    EncryptedData encryptedData = encryptedDataOptional.get();
+    Optional<byte[]> decryptedOptional = tool.decrypt(encryptedData);
+
+    assertTrue(decryptedOptional.isPresent());
+    decryptedOptional.ifPresent( (data) ->
+      assertEquals("foobar", new String(data))
+    );
+  }
 }

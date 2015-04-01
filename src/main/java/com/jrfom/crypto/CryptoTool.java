@@ -28,4 +28,17 @@ public interface CryptoTool {
    *         {@link com.jrfom.crypto.EncryptedData}.
    */
   Optional<EncryptedData> encrypt(byte[] data);
+
+  /**
+   * Encrypt the specified {@code data} using the algorithm of the
+   * {@link CryptoTool} implementation and the given initialization vector,
+   * {@code iv}.
+   *
+   * @param data The data to be encrypted
+   * @param iv The initialization vector to be use. It must be of appropriate
+   *           size for the algorithm of the {@link CryptoTool} implementation
+   * @return An empty {@link java.util.Optional} if there was an error.
+   *         Otherwise an Optional wrapped instance of {@link EncryptedData}
+   */
+  Optional<EncryptedData> encrypt(byte[] data, byte[] iv);
 }

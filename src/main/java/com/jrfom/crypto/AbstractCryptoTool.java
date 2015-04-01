@@ -36,8 +36,8 @@ public class AbstractCryptoTool implements CryptoTool {
    * can be used you <strong>must</strong> add a key using
    * {@link com.jrfom.crypto.AbstractCryptoTool#setKey}.
    *
-   * @param algorithm The algorithm the instance use for encryption/decryption
-   * @param algorithmMode The processing mode fo the specified algorithm
+   * @param algorithm The algorithm the instance will use for encryption/decryption
+   * @param algorithmMode The processing mode for the specified algorithm
    * @param ivSize The expected initialization vector length for the algorithm
    */
   public AbstractCryptoTool(String algorithm, String algorithmMode, Integer ivSize) {
@@ -83,11 +83,19 @@ public class AbstractCryptoTool implements CryptoTool {
    */
   @Override
   public Optional<EncryptedData> encrypt(byte[] data) {
+    return this.encrypt(data, null);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Optional<EncryptedData> encrypt(byte[] data, byte[] iv) {
     Optional<EncryptedData> result = Optional.empty();
     Optional<Cipher> cipherOptional = Optional.empty();
 
     try {
-      cipherOptional = this.getEncryptCipher();
+      cipherOptional = this.getEncryptCipher(iv);
     } catch (Exception e) {
       log.error("Could not get Cipher instance: `{}`", e.getMessage());
       log.debug(e.toString());
@@ -150,12 +158,15 @@ public class AbstractCryptoTool implements CryptoTool {
     return this.getCipher(Cipher.DECRYPT_MODE, iv);
   }
 
-  protected Optional<Cipher> getEncryptCipher() throws Exception {
-    byte[] randomBytes = new byte[this.ivSize];
-    SecureRandom random = new SecureRandom();
-    random.nextBytes(randomBytes);
+  protected Optional<Cipher> getEncryptCipher(byte[] iv) throws Exception {
+    byte[] _iv = iv;
+    if (_iv == null) {
+      _iv = new byte[this.ivSize];
+      SecureRandom random = new SecureRandom();
+      random.nextBytes(_iv);
+    }
 
-    return this.getCipher(Cipher.ENCRYPT_MODE, randomBytes);
+    return this.getCipher(Cipher.ENCRYPT_MODE, _iv);
   }
 
   protected Optional<Cipher> getCipher(int mode, byte[] iv) throws Exception {
