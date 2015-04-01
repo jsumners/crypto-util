@@ -88,4 +88,31 @@ public class AbstractCryptoToolTest {
       assertEquals("foobar", new String(data))
     );
   }
+
+  @Test
+  public void testReEncryptWithIv() throws Exception {
+    AbstractCryptoTool tool =
+      new AbstractCryptoTool(CipherConstants.ALGO_AES, CipherConstants.AesCbcPad5(), 16);
+    tool.setKey(this.key);
+
+    Optional<EncryptedData> encryptedDataOptional1 =
+      tool.encrypt("foobar".getBytes());
+    assertTrue(encryptedDataOptional1.isPresent());
+
+    byte[] iv = encryptedDataOptional1.get().getIv();
+    Optional<EncryptedData> encryptedDataOptional2 =
+      tool.encrypt("foobar".getBytes(), iv);
+    assertTrue(encryptedDataOptional2.isPresent());
+
+    EncryptedData ed1 = encryptedDataOptional1.get();
+    EncryptedData ed2 = encryptedDataOptional2.get();
+
+    String data1 = Base64.getEncoder().encodeToString(ed1.getData());
+    String data2 = Base64.getEncoder().encodeToString(ed2.getData());
+    String iv1 = Base64.getEncoder().encodeToString(ed1.getIv());
+    String iv2 = Base64.getEncoder().encodeToString(ed2.getIv());
+
+    assertEquals(data1, data2);
+    assertEquals(iv1, iv2);
+  }
 }
